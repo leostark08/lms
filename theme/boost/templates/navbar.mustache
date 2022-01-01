@@ -17,8 +17,22 @@
 {{!
     Page navbar.
 }}
-<nav class="fixed-top navbar navbar-light bg-white navbar-expand moodle-has-zindex" aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
+<style>
+
+    
+    .nav-item a{
+        color: #000;
+        text-decoration: none;
+        font-size: 18px;
+    }
+    .nav-item a:hover{
+        color: #FFB344;
+    }
+</style>
+
+<nav class="fixed-top navbar navbar-light bg-white navbar-expand moodle-has-zindex d-flex justify-content-between align-items-center" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+        <div class="d-flex align-items-center">
         <div data-region="drawer-toggle" class="d-inline-block mr-3">
             <button aria-expanded="{{#navdraweropen}}true{{/navdraweropen}}{{^navdraweropen}}false{{/navdraweropen}}" aria-controls="nav-drawer" type="button" class="btn nav-link float-sm-left mr-1 btn-light bg-gray" data-action="toggle-drawer" data-side="left" data-preference="drawer-open-nav">{{#pix}}i/menubars{{/pix}}<span class="sr-only">{{#str}}sidepanel, core{{/str}}</span></button>
         </div>
@@ -34,21 +48,31 @@
                 </span>
             {{/ output.should_display_navbar_logo }}
             <span class="site-name d-none d-md-inline">{{{ sitename }}}</span>
-            <span class="">TEST</span>
         </a>
-
+        </div>
+        
+        <div class="d-flex align-items-center">
         <ul class="navbar-nav d-none d-md-flex">
             <!-- custom_menu -->
             {{{ output.custom_menu }}}
+
             <!-- page_heading_menu -->
             {{{ output.page_heading_menu }}}
         </ul>
+        <ul class="navbar-nav d-none d-md-flex">
+            <li class="nav-item" style="margin-right: 30px;"><a href="/moodle/local/news/manage.php">News</a></li>
+            <li class="nav-item" style="margin-right: 30px;"><a href="/moodle/local/schedule/manage.php">Schedule</a></li>
+            <li class="nav-item"><a href="#">Learning Outcomes</a></li>
+        </ul>
+        </div>
+
+        <div class="d-flex align-items-center">
         <ul class="nav navbar-nav ml-auto">
             <li class="d-none d-lg-block">
                 {{{ output.search_box }}}
             </li>
             <!-- navbar_plugin_output -->
-            <li class="nav-item">
+            <li class="nav-item d-flex align-items-center">
                 {{{ output.navbar_plugin_output }}}
             </li>
             <!-- user_menu -->
@@ -57,5 +81,7 @@
             </li>
         </ul>
         <!-- search_box -->
+        </div>
+        
 </nav>
 

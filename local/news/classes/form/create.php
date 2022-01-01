@@ -1,0 +1,31 @@
+<?php
+//moodleform is defined in formslib.php
+require_once("$CFG->libdir/formslib.php");
+
+class create extends moodleform
+{
+    //Add elements to form
+    public function definition()
+    {
+        global $CFG;
+
+        $mform = $this->_form; // Don't forget the underscore!
+
+        $mform->addElement('text', 'title', 'Title'); // Add elements to your form
+        $mform->setType('title', PARAM_NOTAGS); //Set type of element
+        $mform->setDefault('title', 'Please enter title of news'); //Default value
+
+        $mform->addElement('editor', 'content', 'Content');
+        $mform->setType('content', PARAM_NOTAGS); //Set type of element
+        $mform->setDefault('content', 'Please enter content of news'); //Default value
+
+        $mform->addElement('checkbox', 'status', 'Status');
+
+        $this->add_action_buttons();
+    }
+    //Custom validation should be added here
+    function validation($data, $files)
+    {
+        return array();
+    }
+}

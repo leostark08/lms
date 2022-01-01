@@ -1,0 +1,182 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_news/manage
+
+
+    Example context (json):
+    {
+
+    }
+}}
+{{! <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> }}
+<style>
+    .item {
+        background-color: #FFF8E5;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+    .item__header .title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #112031;
+    }
+    .item__header .short-info {
+        margin-right: 20px;
+    }
+    .item__header .short-info i,
+    .item__header .short-info a {
+        color: #00A19D;
+        font-size: 15px;
+    }
+    .item__body .content {
+        color: #112031;
+    }
+    .btn-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        padding: 5px;
+        border-radius: 5px;
+        min-width: 36px;
+        min-height: 36px;
+        border: 1px solid #fff;
+    }
+    .btn-icon i {
+        color: #fff;
+        font-size: 20px;
+    }
+    {{! danger button }}
+    .btn-danger {
+        border: solid 1px #E05D5D;
+    }
+    .btn-danger i {
+        color: #E05D5D;
+    }
+    .btn-danger:hover{
+        background-color: #E05D5D;
+        transition: ease 0.3s;
+    }
+    .btn-danger:hover > i{
+        color: #fff;
+        transition: ease 0.3s;
+    }
+    .btn-danger.active {
+        background-color: #E05D5D;
+    }
+    .btn-danger.active > i {
+        color: #fff;
+    }
+    {{! end danger button }}
+
+    {{! warning button}}
+    .btn-warning {
+        border: solid 1px #FFB344;
+    }
+    .btn-warning i {
+        color: #FFB344;
+    }
+    .btn-warning:hover{
+        background-color: #FFB344;
+        transition: ease 0.3s;
+    }
+    .btn-warning:hover > i{
+        color: #fff;
+        transition: ease 0.3s;
+    }
+    .btn-warning.active {
+        background-color: #FFB344;
+    }
+    .btn-warning.active > span,
+    .btn-warning.active > i {
+        color: #fff;
+    }
+    {{! end warning button }}
+    .item__body .btn-icon {
+        margin: 0 3px;
+    }
+</style>
+{{! <div class="d-flex flex-row-reverse">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div> }}
+
+<div class="d-flex flex-row-reverse">
+<input type="button" class="btn btn-primary" value="Create" onclick="location.href='{{createurl}}'"/>
+</div>
+<div class="news-items" id="news-group">
+    {{#newsdata}}
+    <div class="item">
+        <div class="item__header" id="heading1">
+            <div class="row">
+                <div class="col-lg-11">
+                    <a class="title" data-toggle="collapse" href="#collapse{{id}}" role="button" aria-expanded="true"
+                       aria-controls="collapseExample">
+                        {{title}}
+                    </a></div>
+                <div class="col-lg-1 d-flex flex-row-reverse">
+                    <button type="button" class="btn-icon btn-danger btn-bookmark active"><i class="fa fa-bookmark-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row">
+                <div class="short-info"><i class="fa fa-copyright" aria-hidden="true"></i> <a href="#">author</a></div>
+                <div class="short-info"><i class="fa fa-clock-o" aria-hidden="true"></i> <a href="#">time</a></div>
+            </div>
+        </div>
+        <div class="item__body collapse" id="collapse{{id}}" aria-labelledby="heading1" data-parent="#news-group">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-row-reverse">
+                        <button type="button" class="btn-icon btn-warning btn-share"><i class="fa fa-2x fa-share-alt" aria-hidden="true"></i></button>
+                        <button type="button" class="btn-icon btn-warning btn-star active"><i class="fa fa-2x fa-star-o" aria-hidden="true"></i><span>&nbsp;(174)</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                {{content}}
+            </div>
+        </div>
+    </div>
+    {{/newsdata}}
+</div>
+
+{{! <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> }}
