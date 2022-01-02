@@ -401,7 +401,7 @@ function createsession(
         }
         if ($CFG->jitsi_invitebuttons == 1 && has_capability('mod/jitsi:createlink', $PAGE->context)) {
             echo " ";
-            echo "<div class='col-lg-3 d-flex justify-content-between'>";
+            echo "<div class='col-lg-4 d-flex justify-content-between'>";
             echo "<button onclick=\"copyurl()\" type=\"button\" class=\"btn btn-secondary\" id=\"copyurl\">";
             echo get_string('URLguest', 'jitsi');
             echo "</button>";
@@ -409,6 +409,11 @@ function createsession(
             echo "<button onclick=\"window.open('https://$CFG->jitsi_domain/$sessionnorm', 'blank')\" type=\"button\" class=\"btn btn-secondary\" id=\"copyurl\">";
             echo ('Undock');
             echo "</button>";
+
+            echo "<button onclick=\"\" type=\"button\" class=\"btn btn-secondary\" id=\"roll-call\">";
+            echo ('Roll-call');
+            echo "</button>";
+
             echo "</div>";
         }
     }

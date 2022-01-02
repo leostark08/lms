@@ -51,12 +51,11 @@ if ($reset and confirm_sesskey()) {
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('themesaved'));
     echo $OUTPUT->box_start();
-    echo format_text(get_string('choosereadme', 'theme_'.$theme->name), FORMAT_MOODLE);
+    echo format_text(get_string('choosereadme', 'theme_' . $theme->name), FORMAT_MOODLE);
     echo $OUTPUT->box_end();
     echo $OUTPUT->continue_button($CFG->wwwroot . '/theme/index.php');
     echo $OUTPUT->footer();
     exit;
-
 } else if ($choose && $device && !theme_is_device_locked($device) && !$unsettheme && confirm_sesskey()) {
     // Load the theme to make sure it is valid.
     $theme = theme_config::load($choose);
@@ -109,22 +108,28 @@ if (!empty($CFG->enabledevicedetection) && empty($device)) {
                 // Likely the theme has been deleted.
                 unset_config(core_useragent::get_device_type_cfg_var_name($thedevice));
             } else {
-                $strthemename = get_string('pluginname', 'theme_'.$themename);
+                $strthemename = get_string('pluginname', 'theme_' . $themename);
                 // Link to the screenshot, now mandatory - the image path is hardcoded because we need image from other themes,
                 // not the current one.
-                $screenshoturl = new moodle_url('/theme/image.php',
-                    array('theme' => $themename, 'image' => 'screenshot', 'component' => 'theme'));
+                $screenshoturl = new moodle_url(
+                    '/theme/image.php',
+                    array('theme' => $themename, 'image' => 'screenshot', 'component' => 'theme')
+                );
                 // Contents of the screenshot/preview cell.
-                $screenshotcell = html_writer::empty_tag('img', array('class' => 'img-responsive img-fluid',
-                    'src' => $screenshoturl, 'alt' => $strthemename));
+                $screenshotcell = html_writer::empty_tag('img', array(
+                    'class' => 'img-responsive img-fluid',
+                    'src' => $screenshoturl, 'alt' => $strthemename
+                ));
                 // Show the name of the picked theme.
                 $headingthemename = $OUTPUT->heading($strthemename, 3);
             }
             // If not default device then show option to unset theme.
             if ($thedevice != 'default' && !$themelocked) {
                 $unsetthemestr = get_string('unsettheme', 'admin');
-                $unsetthemeurl = new moodle_url('/theme/index.php',
-                    array('device' => $thedevice, 'sesskey' => sesskey(), 'unsettheme' => true));
+                $unsetthemeurl = new moodle_url(
+                    '/theme/index.php',
+                    array('device' => $thedevice, 'sesskey' => sesskey(), 'unsettheme' => true)
+                );
                 $unsetthemebutton = new single_button($unsetthemeurl, $unsetthemestr, 'get');
                 $unsetthemebutton = $OUTPUT->render($unsetthemebutton);
             }
@@ -189,7 +194,7 @@ if (!empty($CFG->enabledevicedetection) && empty($device)) {
             // designer mode is switched off we will respect that decision.
             continue;
         }
-        $strthemename = get_string('pluginname', 'theme_'.$themename);
+        $strthemename = get_string('pluginname', 'theme_' . $themename);
 
         // Build the table row, and also a list of items to go in the second cell.
         $row = array();
@@ -206,11 +211,15 @@ if (!empty($CFG->enabledevicedetection) && empty($device)) {
 
         // Link to the screenshot, now mandatory - the image path is hardcoded because we need image from other themes,
         // not the current one.
-        $screenshotpath = new moodle_url('/theme/image.php',
-            array('theme' => $themename, 'image' => 'screenshot', 'component' => 'theme'));
+        $screenshotpath = new moodle_url(
+            '/theme/image.php',
+            array('theme' => $themename, 'image' => 'screenshot', 'component' => 'theme')
+        );
         // Contents of the first screenshot/preview cell.
-        $row[] = html_writer::empty_tag('img', array('class' => 'img-responsive img-fluid',
-            'src' => $screenshotpath, 'alt' => $strthemename));
+        $row[] = html_writer::empty_tag('img', array(
+            'class' => 'img-responsive img-fluid',
+            'src' => $screenshotpath, 'alt' => $strthemename
+        ));
         // Contents of the second cell.
         $infocell = $OUTPUT->heading($strthemename, 3);
 
@@ -222,14 +231,18 @@ if (!empty($CFG->enabledevicedetection) && empty($device)) {
         if (!$themelocked) {
             if (($ischosentheme) && ($device != 'default')) {
                 $unsetthemestr = get_string('unsettheme', 'admin');
-                $unsetthemeurl = new moodle_url('/theme/index.php',
-                    array('device' => $device, 'unsettheme' => true, 'sesskey' => sesskey()));
+                $unsetthemeurl = new moodle_url(
+                    '/theme/index.php',
+                    array('device' => $device, 'unsettheme' => true, 'sesskey' => sesskey())
+                );
                 $unsetbutton = new single_button($unsetthemeurl, $unsetthemestr, 'get');
                 $infocell .= $OUTPUT->render($unsetbutton);
             } else if ((!$ischosentheme)) {
                 $setthemestr = get_string('usetheme');
-                $setthemeurl = new moodle_url('/theme/index.php',
-                    array('device' => $device, 'choose' => $themename, 'sesskey' => sesskey()));
+                $setthemeurl = new moodle_url(
+                    '/theme/index.php',
+                    array('device' => $device, 'choose' => $themename, 'sesskey' => sesskey())
+                );
                 $setthemebutton = new single_button($setthemeurl, $setthemestr, 'get');
                 $infocell .= $OUTPUT->render($setthemebutton);
             }

@@ -18,19 +18,6 @@
     Page navbar.
 }}
 
-<style>
-
-    
-    .nav-item a{
-        color: #000;
-        text-decoration: none;
-        font-size: 18px;
-    }
-    .nav-item a:hover{
-        color: #FFB344;
-    }
-</style>
-
 <nav class="fixed-top navbar navbar-light bg-white navbar-expand moodle-has-zindex d-flex justify-content-between align-items-center" aria-label="{{#str}}sitemenubar, admin{{/str}}">
         <div class="d-flex align-items-center">
         <div data-region="drawer-toggle" class="d-inline-block mr-3">
@@ -56,13 +43,14 @@
             <!-- custom_menu -->
             {{{ output.custom_menu }}}
 
-            <!-- page_heading_menu -->
-            {{{ output.page_heading_menu }}}
+
         </ul>
+
         <ul class="navbar-nav d-none d-md-flex">
-            <li class="nav-item" style="margin-right: 30px;"><a href="/moodle/local/news/manage.php">News</a></li>
-            <li class="nav-item" style="margin-right: 30px;"><a href="/moodle/local/schedule/manage.php">Schedule</a></li>
-            <li class="nav-item"><a href="#">Learning Outcomes</a></li>
+            <!-- page_heading_menu -->
+            {{# output.page_heading_menu }}
+            <li class="nav-item" style="margin-right: 30px;"><a href="{{url}}">{{label}}</a></li>
+            {{/ output.page_heading_menu }}
         </ul>
         </div>
 
