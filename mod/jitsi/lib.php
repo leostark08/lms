@@ -41,9 +41,10 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed true if the feature is supported, null if unknown
  */
-function jitsi_supports($feature) {
+function jitsi_supports($feature)
+{
 
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
         case FEATURE_SHOW_DESCRIPTION:
@@ -67,9 +68,10 @@ function jitsi_supports($feature) {
  * @param mod_jitsi_mod_form $mform The form instance itself (if needed)
  * @return int The id of the newly inserted jitsi record
  */
-function jitsi_add_instance($jitsi,  $mform = null) {
+function jitsi_add_instance($jitsi,  $mform = null)
+{
     global $CFG, $DB;
-    require_once($CFG->dirroot.'/mod/jitsi/locallib.php');
+    require_once($CFG->dirroot . '/mod/jitsi/locallib.php');
 
     $jitsi->timecreated = time();
     $cmid       = $jitsi->coursemodule;
@@ -91,9 +93,10 @@ function jitsi_add_instance($jitsi,  $mform = null) {
  * @param mod_jitsi_mod_form $mform The form instance itself (if needed)
  * @return boolean Success/Fail
  */
-function jitsi_update_instance($jitsi,  $mform = null) {
+function jitsi_update_instance($jitsi,  $mform = null)
+{
     global $CFG, $DB;
-    require_once($CFG->dirroot.'/mod/jitsi/locallib.php');
+    require_once($CFG->dirroot . '/mod/jitsi/locallib.php');
 
     $jitsi->timemodified = time();
     $jitsi->id = $jitsi->instance;
@@ -116,7 +119,8 @@ function jitsi_update_instance($jitsi,  $mform = null) {
  * @param int|stdClass $cm Course module object or ID.
  * @return bool
  */
-function jitsi_refresh_events($courseid = 0, $instance = null, $cm = null) {
+function jitsi_refresh_events($courseid = 0, $instance = null, $cm = null)
+{
     global $CFG, $DB;
     require_once($CFG->dirroot . '/mod/jitsi/locallib.php');
 
@@ -164,10 +168,11 @@ function jitsi_refresh_events($courseid = 0, $instance = null, $cm = null) {
  * @param int $id Id of the module instance
  * @return boolean Success/Failure
  */
-function jitsi_delete_instance($id) {
+function jitsi_delete_instance($id)
+{
     global $CFG, $DB;
 
-    if (! $jitsi = $DB->get_record('jitsi', array('id' => $id))) {
+    if (!$jitsi = $DB->get_record('jitsi', array('id' => $id))) {
         return false;
     }
 
@@ -177,7 +182,7 @@ function jitsi_delete_instance($id) {
         deleterecordyoutube($record->id);
     }
 
-    if (! $DB->delete_records('jitsi', array('id' => $jitsi->id))) {
+    if (!$DB->delete_records('jitsi', array('id' => $jitsi->id))) {
         $result = false;
     }
 
@@ -191,20 +196,34 @@ function jitsi_delete_instance($id) {
  * @param stdClass $user user
  * @param int $iscurrentuser iscurrentuser
  */
-function jitsi_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser) {
+function jitsi_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser)
+{
     global $DB, $CFG, $USER;
     if ($CFG->jitsi_privatesessions == 1) {
         $urlparams = array('user' => $user->id);
         $url = new moodle_url('/mod/jitsi/viewpriv.php', $urlparams);
-        $category = new core_user\output\myprofile\category('jitsi',
-            get_string('jitsi', 'jitsi'), null);
+        $category = new core_user\output\myprofile\category(
+            'jitsi',
+            get_string('jitsi', 'jitsi'),
+            null
+        );
         $tree->add_category($category);
         if ($iscurrentuser == 0) {
-            $node = new core_user\output\myprofile\node('jitsi', 'jitsi',
-                get_string('privatesession', 'jitsi', $user->firstname), null, $url);
+            $node = new core_user\output\myprofile\node(
+                'jitsi',
+                'jitsi',
+                get_string('privatesession', 'jitsi', $user->firstname),
+                null,
+                $url
+            );
         } else {
-            $node = new core_user\output\myprofile\node('jitsi', 'jitsi',
-                get_string('myprivatesession', 'jitsi'), null, $url);
+            $node = new core_user\output\myprofile\node(
+                'jitsi',
+                'jitsi',
+                get_string('myprivatesession', 'jitsi'),
+                null,
+                $url
+            );
         }
         $tree->add_node($node);
     }
@@ -215,7 +234,8 @@ function jitsi_myprofile_navigation(core_user\output\myprofile\tree $tree, $user
  * Base 64 encode
  * @param string $inputstr - Input to encode
  */
-function base64urlencode($inputstr) {
+function base64urlencode($inputstr)
+{
     return strtr(base64_encode($inputstr), '+/=', '-_,');
 }
 
@@ -223,7 +243,8 @@ function base64urlencode($inputstr) {
  * Base 64 decode
  * @param string $inputstr - Input to decode
  */
-function base64urldecode($inputstr) {
+function base64urldecode($inputstr)
+{
     return base64_decode(strtr($inputstr, '-_,', '+/='));
 }
 
@@ -233,18 +254,21 @@ function base64urldecode($inputstr) {
  * @param boolean $forcelowercase - Force the string to lowercase?
  * @param boolean $anal - If set to *true*, will remove all non-alphanumeric characters.
  */
-function string_sanitize($string, $forcelowercase = true, $anal = false) {
-    $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")",
-            "_", "=", "+", "[", "{", "]", "}", "\\", "|", ";", ":", "\"",
-            "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
-            "â€”", "â€“", ",", "<", ".", ">", "/", "?");
+function string_sanitize($string, $forcelowercase = true, $anal = false)
+{
+    $strip = array(
+        "~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")",
+        "_", "=", "+", "[", "{", "]", "}", "\\", "|", ";", ":", "\"",
+        "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
+        "â€”", "â€“", ",", "<", ".", ">", "/", "?"
+    );
     $clean = trim(str_replace($strip, "", strip_tags($string)));
     $clean = preg_replace('/\s+/', "-", $clean);
     $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean;
     return ($forcelowercase) ?
         (function_exists('mb_strtolower')) ?
-            mb_strtolower($clean, 'UTF-8') :
-            strtolower($clean) :
+        mb_strtolower($clean, 'UTF-8') :
+        strtolower($clean) :
         $clean;
 }
 
@@ -258,8 +282,19 @@ function string_sanitize($string, $forcelowercase = true, $anal = false) {
  * @param string $mail - mail
  * @param stdClass $jitsi - Jitsi session
  */
-function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jitsi, $universal = false,
-        $user = null, $timestamp = null, $codet = null) {
+function createsession(
+    $teacher,
+    $cmid,
+    $avatar,
+    $nombre,
+    $session,
+    $mail,
+    $jitsi,
+    $universal = false,
+    $user = null,
+    $timestamp = null,
+    $codet = null
+) {
     global $CFG, $DB, $PAGE, $USER;
     $sessionnorm = str_replace(array(' ', ':', '"'), '', $session);
     if ($teacher == 1) {
@@ -310,11 +345,12 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
     $base64urlsignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
     $jwt = $base64urlheader . "." . $base64urlpayload . "." . $base64urlsignature;
     echo "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js\"></script>";
-    echo "<script src=\"https://".$CFG->jitsi_domain."/external_api.js\"></script>\n";
+    echo "<script src=\"https://" . $CFG->jitsi_domain . "/external_api.js\"></script>\n";
 
     $streamingoption = '';
     if (($CFG->jitsi_livebutton == 1) && (has_capability('mod/jitsi:record', $PAGE->context))
-        && ($CFG->jitsi_streamingoption == 0)) {
+        && ($CFG->jitsi_streamingoption == 0)
+    ) {
         $streamingoption = 'livestreaming';
     }
 
@@ -343,30 +379,37 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
     }
 
     $buttons = "['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-        'fodeviceselection', 'hangup', 'chat', '".$record."', 'etherpad', '".$youtubeoption."',
-        'settings', 'raisehand', 'videoquality', '".$streamingoption."','filmstrip', '".$invite."', 'stats',
-        'shortcuts', 'tileview', '".$bluroption."', 'download', 'help', '".$muteeveryone."',
-        '".$mutevideoeveryone."', '".$security."']";
+        'fodeviceselection', 'hangup', 'chat', '" . $record . "', 'etherpad', '" . $youtubeoption . "',
+        'settings', 'raisehand', 'videoquality', '" . $streamingoption . "','filmstrip', '" . $invite . "', 'stats',
+        'shortcuts', 'tileview', '" . $bluroption . "', 'download', 'help', '" . $muteeveryone . "',
+        '" . $mutevideoeveryone . "', '" . $security . "']";
 
     echo "<div class=\"row\">";
     echo "<div class=\"col-sm\">";
     if ($user == null) {
-        if ($CFG->jitsi_livebutton == 1 && has_capability('mod/jitsi:record', $PAGE->context)
+        if (
+            $CFG->jitsi_livebutton == 1 && has_capability('mod/jitsi:record', $PAGE->context)
             && get_config('mod_jitsi', 'jitsi_clientrefreshtoken') != null
             && get_config('mod_jitsi', 'jitsi_clientaccesstoken') != null
-            && ($CFG->jitsi_streamingoption == 1)) {
-                echo "<button onclick=\"stream()\" type=\"button\" class=\"btn btn-secondary\" id=\"startstream\">".
-                    get_string('startstream', 'jitsi')."</button>";
-                echo " ";
-                echo "<button onclick=\"stopStream()\" type=\"button\" class=\"btn btn-secondary\"
-                    id=\"stopstream\" disabled=\"true\">".get_string('stopstream', 'jitsi')."</button>";
+            && ($CFG->jitsi_streamingoption == 1)
+        ) {
+            echo "<button onclick=\"stream()\" type=\"button\" class=\"btn btn-secondary\" id=\"startstream\">" .
+                get_string('startstream', 'jitsi') . "</button>";
+            echo " ";
+            echo "<button onclick=\"stopStream()\" type=\"button\" class=\"btn btn-secondary\"
+                    id=\"stopstream\" disabled=\"true\">" . get_string('stopstream', 'jitsi') . "</button>";
         }
         if ($CFG->jitsi_invitebuttons == 1 && has_capability('mod/jitsi:createlink', $PAGE->context)) {
             echo " ";
+            echo "<div class='col-lg-3 d-flex justify-content-between'>";
             echo "<button onclick=\"copyurl()\" type=\"button\" class=\"btn btn-secondary\" id=\"copyurl\">";
             echo get_string('URLguest', 'jitsi');
             echo "</button>";
-            echo "<br>";
+
+            echo "<button onclick=\"window.open('https://$CFG->jitsi_domain/$sessionnorm', 'blank')\" type=\"button\" class=\"btn btn-secondary\" id=\"copyurl\">";
+            echo ('Undock');
+            echo "</button>";
+            echo "</div>";
         }
     }
 
@@ -374,22 +417,22 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
     echo "<hr>";
 
     echo "<script>\n";
-    echo "const domain = \"".$CFG->jitsi_domain."\";\n";
+    echo "const domain = \"" . $CFG->jitsi_domain . "\";\n";
     echo "const options = {\n";
     echo "configOverwrite: {\n";
     if ($CFG->jitsi_deeplink == 0) {
         echo "disableDeepLinking: true,\n";
     }
-    echo "toolbarButtons: ".$buttons.",\n";
+    echo "toolbarButtons: " . $buttons . ",\n";
     echo "disableProfile: true,\n";
     echo "prejoinPageEnabled: false,";
-    echo "channelLastN: ".$CFG->jitsi_channellastcam.",\n";
+    echo "channelLastN: " . $CFG->jitsi_channellastcam . ",\n";
     echo "startWithAudioMuted: true,\n";
     echo "startWithVideoMuted: true,\n";
     echo "},\n";
-    echo "roomName: \"".urlencode($sessionnorm)."\",\n";
+    echo "roomName: \"" . urlencode($sessionnorm) . "\",\n";
     if ($CFG->jitsi_app_id != null && $CFG->jitsi_secret != null) {
-        echo "jwt: \"".$jwt."\",\n";
+        echo "jwt: \"" . $jwt . "\",\n";
     }
     if ($CFG->branch < 36) {
         if ($CFG->theme == 'boost' || in_array('boost', $themeconfig->parents)) {
@@ -401,38 +444,38 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
         echo "parentNode: document.querySelector('#region-main'),\n";
     }
     echo "interfaceConfigOverwrite:{\n";
-    echo "TOOLBAR_BUTTONS: ".$buttons.",\n";
+    echo "TOOLBAR_BUTTONS: " . $buttons . ",\n";
     echo "SHOW_JITSI_WATERMARK: true,\n";
-    echo "JITSI_WATERMARK_LINK: '".$CFG->jitsi_watermarklink."',\n";
+    echo "JITSI_WATERMARK_LINK: '" . $CFG->jitsi_watermarklink . "',\n";
     echo "},\n";
     echo "width: '100%',\n";
     echo "height: 650,\n";
     echo "}\n";
     echo "const api = new JitsiMeetExternalAPI(domain, options);\n";
-    echo "api.executeCommand('displayName', '".$nombre."');\n";
-    echo "api.executeCommand('avatarUrl', '".$avatar."');\n";
+    echo "api.executeCommand('displayName', '" . $nombre . "');\n";
+    echo "api.executeCommand('avatarUrl', '" . $avatar . "');\n";
 
     if ($CFG->jitsi_finishandreturn == 1) {
         echo "api.on('readyToClose', () => {\n";
         echo "    api.dispose();\n";
         if ($universal == false && $user == null) {
-            echo "    location.href=\"".$CFG->wwwroot."/mod/jitsi/view.php?id=".$cmid."\";";
+            echo "    location.href=\"" . $CFG->wwwroot . "/mod/jitsi/view.php?id=" . $cmid . "\";";
         } else if ($universal == true && $user == null) {
-            echo "    location.href=\"".$CFG->wwwroot."/mod/jitsi/formuniversal.php?id=".$cmid."&c=".$codet."&t=".$timestamp."\";";
+            echo "    location.href=\"" . $CFG->wwwroot . "/mod/jitsi/formuniversal.php?id=" . $cmid . "&c=" . $codet . "&t=" . $timestamp . "\";";
         } else if ($user != null && !$timestamp && !$codet) {
-            echo "    location.href=\"".$CFG->wwwroot."/mod/jitsi/viewpriv.php?user=".$user."\";";
+            echo "    location.href=\"" . $CFG->wwwroot . "/mod/jitsi/viewpriv.php?user=" . $user . "\";";
         }
         echo  "});\n";
     }
     if ($CFG->jitsi_password != null) {
         echo "api.addEventListener('participantRoleChanged', function(event) {";
         echo "    if (event.role === \"moderator\") {";
-        echo "        api.executeCommand('password', '".$CFG->jitsi_password."');";
+        echo "        api.executeCommand('password', '" . $CFG->jitsi_password . "');";
         echo "    }";
         echo "});";
         echo "api.on('passwordRequired', function ()";
         echo "{";
-        echo "    api.executeCommand('password', '".$CFG->jitsi_password."');";
+        echo "    api.executeCommand('password', '" . $CFG->jitsi_password . "');";
         echo "});";
     }
 
@@ -448,7 +491,7 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
         echo "    require(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {\n";
         echo "        ajax.call([{\n";
         echo "            methodname: 'mod_jitsi_state_record',\n";
-        echo "            args: {jitsi:".$jitsi->id.", state: event['on']},\n";
+        echo "            args: {jitsi:" . $jitsi->id . ", state: event['on']},\n";
 
         echo "            done: console.log(\"Cambio grabación\"),\n";
         echo "            fail: notification.exception\n";
@@ -463,7 +506,7 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
         echo "    require(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {\n";
         echo "       var respuesta = ajax.call([{\n";
         echo "            methodname: 'mod_jitsi_create_stream',\n";
-        echo "            args: {session:'".$session."', jitsi:'".$jitsi->id."'},\n";
+        echo "            args: {session:'" . $session . "', jitsi:'" . $jitsi->id . "'},\n";
 
         echo "       }]);\n";
         echo "       respuesta[0].done(function(response) {\n";
@@ -489,7 +532,7 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
         echo "    require(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notification) {\n";
         echo "       var respuesta = ajax.call([{\n";
         echo "            methodname: 'mod_jitsi_create_link',\n";
-        echo "            args: {jitsi: ".$jitsi->id."},\n";
+        echo "            args: {jitsi: " . $jitsi->id . "},\n";
         echo "       }]);\n";
         echo "       respuesta[0].done(function(response) {\n";
         echo "            alert(\"Enviado\");";
@@ -501,16 +544,17 @@ function createsession($teacher, $cmid, $avatar, $nombre, $session, $mail, $jits
         echo "function copyurl() {\n";
         echo "var d = new Date();\n";
         echo "var t = Math.round(d.getTime()/1000);\n";
-        echo "var time = ".generatecode($jitsi)."+t;\n";
-        echo "var copyText = \"".$CFG->wwwroot.'/mod/jitsi/formuniversal.php?id='.$cmid."&c=\"+time+\"&t=\"+t;\n";
+        echo "var time = " . generatecode($jitsi) . "+t;\n";
+        echo "var copyText = \"" . $CFG->wwwroot . '/mod/jitsi/formuniversal.php?id=' . $cmid . "&c=\"+time+\"&t=\"+t;\n";
         echo "navigator.clipboard.writeText(copyText);\n";
-        echo "alert(\"".get_string('copied', 'jitsi')."\");\n";
+        echo "alert(\"" . get_string('copied', 'jitsi') . "\");\n";
         echo "}\n";
     }
     echo "</script>\n";
 }
 
-function istimedout($timestamp, $jitsi) {
+function istimedout($timestamp, $jitsi)
+{
     $time = $jitsi->validitytime;
     $limit = $timestamp + $time;
     if (time() > $limit) {
@@ -520,7 +564,8 @@ function istimedout($timestamp, $jitsi) {
     }
 }
 
-function isoriginal($code, $jitsi) {
+function isoriginal($code, $jitsi)
+{
     if ($code == $jitsi->timecreated + $jitsi->id) {
         $original = true;
     } else {
@@ -529,7 +574,8 @@ function isoriginal($code, $jitsi) {
     return $original;
 }
 
-function generatecode($jitsi) {
+function generatecode($jitsi)
+{
     return $jitsi->timecreated + $jitsi->id;
 }
 
@@ -538,7 +584,8 @@ function generatecode($jitsi) {
  * @param stdClass $fromuser - User entering the private session
  * @param stdClass $touser - User session owner
  */
-function sendnotificationprivatesession($fromuser, $touser) {
+function sendnotificationprivatesession($fromuser, $touser)
+{
     global $CFG;
     $message = new \core\message\message();
     $message->component = 'mod_jitsi';
@@ -546,14 +593,14 @@ function sendnotificationprivatesession($fromuser, $touser) {
     $message->userfrom = core_user::get_noreply_user();
     $message->userto = $touser;
     $message->subject = get_string('userenter', 'jitsi', $fromuser->firstname);
-    $message->fullmessage = get_string('userenter', 'jitsi', $fromuser->firstname .' '. $fromuser->lastname);
+    $message->fullmessage = get_string('userenter', 'jitsi', $fromuser->firstname . ' ' . $fromuser->lastname);
     $message->fullmessageformat = FORMAT_MARKDOWN;
-    $message->fullmessagehtml = get_string('user').' <a href='.$CFG->wwwroot.'/user/profile.php?id='.$fromuser->id.'> '
-    . $fromuser->firstname .' '. $fromuser->lastname
-    . '</a> '.get_string('hasentered', 'jitsi').'. '.get_string('click', 'jitsi').'<a href='
-    . new moodle_url('/mod/jitsi/viewpriv.php', array('user' => $touser->id))
-    .'> '.get_string('here', 'jitsi').'</a> '.get_string('toenter', 'jitsi');
-    $message->smallmessage = get_string('userenter', 'jitsi', $fromuser->firstname .' '. $fromuser->lastname);
+    $message->fullmessagehtml = get_string('user') . ' <a href=' . $CFG->wwwroot . '/user/profile.php?id=' . $fromuser->id . '> '
+        . $fromuser->firstname . ' ' . $fromuser->lastname
+        . '</a> ' . get_string('hasentered', 'jitsi') . '. ' . get_string('click', 'jitsi') . '<a href='
+        . new moodle_url('/mod/jitsi/viewpriv.php', array('user' => $touser->id))
+        . '> ' . get_string('here', 'jitsi') . '</a> ' . get_string('toenter', 'jitsi');
+    $message->smallmessage = get_string('userenter', 'jitsi', $fromuser->firstname . ' ' . $fromuser->lastname);
     $message->notification = 1;
     $message->contexturl = new moodle_url('/mod/jitsi/viewpriv.php', array('user' => $touser->id));
     $message->contexturlname = 'Private session';
@@ -566,7 +613,8 @@ function sendnotificationprivatesession($fromuser, $touser) {
  * Delete Jitsi record
  * @param int $idjitsi - Jitsi record to delete
  */
-function delete_jitsi_record($idrecord) {
+function delete_jitsi_record($idrecord)
+{
     global $DB;
     $DB->delete_records('jitsi_record', array('id' => $idrecord));
 }
@@ -575,11 +623,12 @@ function delete_jitsi_record($idrecord) {
  * Delete Record from youtube
  * @param int $idrecord - Jitsi record to delete
  */
-function deleterecordyoutube($idrecord) {
+function deleterecordyoutube($idrecord)
+{
     global $CFG, $DB, $PAGE;
     // Api google.
     if (!file_exists(__DIR__ . '/api/vendor/autoload.php')) {
-        throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
+        throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ . '"');
     }
     require_once(__DIR__ . '/api/vendor/autoload.php');
 
@@ -599,11 +648,11 @@ function deleterecordyoutube($idrecord) {
     echo get_config('jitsi_clientaccesstoken', 'mod_jitsi');
     echo get_config('jitsi_clientrefreshtoken', 'mod_jitsi');
     if ($timediff > 3599) {
-          $newaccesstoken = $client->fetchAccessTokenWithRefreshToken(get_config('mod_jitsi', 'jitsi_clientrefreshtoken'));
-          set_config('jitsi_clientaccesstoken', $newaccesstoken["access_token"] , 'mod_jitsi');
-          $newrefreshaccesstoken = $client->getRefreshToken();
-          set_config('jitsi_clientrefreshtoken', $newrefreshaccesstoken, 'mod_jitsi');
-          set_config('jitsi_tokencreated', time(), 'mod_jitsi');
+        $newaccesstoken = $client->fetchAccessTokenWithRefreshToken(get_config('mod_jitsi', 'jitsi_clientrefreshtoken'));
+        set_config('jitsi_clientaccesstoken', $newaccesstoken["access_token"], 'mod_jitsi');
+        $newrefreshaccesstoken = $client->getRefreshToken();
+        set_config('jitsi_clientrefreshtoken', $newrefreshaccesstoken, 'mod_jitsi');
+        set_config('jitsi_tokencreated', time(), 'mod_jitsi');
     }
 
     $youtube = new Google_Service_YouTube($client);
@@ -614,17 +663,18 @@ function deleterecordyoutube($idrecord) {
             $youtube->videos->delete($jitsirecord->link);
             delete_jitsi_record($idrecord);
         } catch (Google_Service_Exception $e) {
-            throw new \Exception("exception".$e->getMessage());
+            throw new \Exception("exception" . $e->getMessage());
         } catch (Google_Exception $e) {
-            throw new \Exception("exception".$e->getMessage());
+            throw new \Exception("exception" . $e->getMessage());
         }
     }
 }
 
- /**
-  * Get icon mapping for font-awesome.
-  */
-function mod_jitsi_get_fontawesome_icon_map() {
+/**
+ * Get icon mapping for font-awesome.
+ */
+function mod_jitsi_get_fontawesome_icon_map()
+{
     return [
         'mod_forum:t/add' => 'share-alt-square',
     ];

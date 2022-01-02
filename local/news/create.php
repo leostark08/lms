@@ -33,6 +33,8 @@ if ($mform->is_cancelled()) {
     $recordtoinsert->title = $title;
     $recordtoinsert->content = $content['text'];
     $recordtoinsert->status = $status;
+    $recordtoinsert->timecreated = time();
+    $recordtoinsert->timemodified = time();
 
     $DB->insert_record('news', $recordtoinsert);
 

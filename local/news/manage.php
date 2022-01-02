@@ -17,7 +17,7 @@ echo $OUTPUT->header();
 
 $templatecontext = (object) [
     'newsdata' => array_values($newsdata),
-    'createurl' => new moodle_url('/local/news/create.php')
+    'createurl' => new moodle_url('/local/news/create.php'),
 ];
 
 echo $OUTPUT->render_from_template('local_news/manage', $templatecontext);
