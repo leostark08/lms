@@ -3,6 +3,7 @@ require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/local/news/classes/form/create.php');
 
 global $DB;
+global $USER;
 
 try {
     $PAGE->set_url(new moodle_url('/local/news/create.php'));
@@ -28,7 +29,7 @@ if ($mform->is_cancelled()) {
 
     $recordtoinsert = new StdClass();
 
-    $recordtoinsert->author = 1;
+    $recordtoinsert->author = $USER->id;
     $recordtoinsert->type = 1;
     $recordtoinsert->title = $title;
     $recordtoinsert->content = $content['text'];

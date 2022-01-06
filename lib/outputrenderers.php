@@ -4257,7 +4257,7 @@ EOD;
     {
         $headingmenu = [
             ['label' => 'News', 'url' => new moodle_url('/local/news/manage.php')],
-            ['label' => 'Message', 'url' => new moodle_url('/message/index.php')],
+            ['label' => 'Messages', 'url' => new moodle_url('/message/index.php')],
             ['label' => 'Schedule', 'url' => new moodle_url('/local/schedule/manage.php')],
             ['label' => 'Transcript', 'url' => new moodle_url('/local/transcript/manage.php')],
         ];

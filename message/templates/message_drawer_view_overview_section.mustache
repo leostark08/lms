@@ -35,41 +35,9 @@
 
 }}
 
-<div
-    class="section border-0 card"
-    data-region="{{$region}}{{/region}}"
->
-    <div id="{{$region}}{{/region}}-toggle" class="card-header p-0" data-region="toggle">
-        <button
-            class="btn btn-link w-100 text-left p-1 p-sm-2 d-flex align-items-center overview-section-toggle {{^expanded}}collapsed{{/expanded}}"
-            data-toggle="collapse"
-            data-target="#{{$region}}{{/region}}-target-{{uniqid}}"
-            aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
-            aria-controls="{{$region}}{{/region}}-target-{{uniqid}}"
-        >
-            <span class="collapsed-icon-container">
-                {{#pix}} t/collapsedcaret, core {{/pix}}
-            </span>
-            <span class="expanded-icon-container">
-                {{#pix}} t/expanded, core {{/pix}}
-            </span>
-            <span class="font-weight-bold">{{$title}}{{/title}}</span>
-            <small class="hidden ml-1" data-region="section-total-count-container"
-            aria-label="{{#str}} totalconversations, core_message, {{count.total}} {{/str}}">
-                (<span data-region="section-total-count">{{count.total}}</span>)
-            </small>
-            <span class="hidden ml-2" data-region="loading-icon-container">
-                {{> core/loading }}
-            </span>
-            <span class="{{^count.unread}}hidden{{/count.unread}} badge badge-pill badge-primary ml-auto bg-primary"
-            data-region="section-unread-count"
-            {{#count.unread}}aria-label="{{#str}} unreadconversations, core_message, {{count.unread}} {{/str}}"{{/count.unread}}>
-                {{count.unread}}
-            </span>
-        </button>
-    </div>
+<div class="section border-0 card" data-region="{{$region}}{{/region}}">
     {{< core_message/message_drawer_lazy_load_list }}
-        {{$rootclasses}}collapse border-bottom {{#expanded}}show{{/expanded}}{{/rootclasses}}
+        {{$rootclasses}}collapse border-bottom show{{/rootclasses}}
         {{$rootattributes}}
             id="{{$region}}{{/region}}-target-{{uniqid}}"
             aria-labelledby="{{$region}}{{/region}}-toggle"

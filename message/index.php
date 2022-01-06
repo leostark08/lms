@@ -85,8 +85,10 @@ $settings->make_active();
 echo $OUTPUT->header();
 // Display a message if the messages have not been migrated yet.
 if (!get_user_preferences('core_message_migrate_data', false)) {
-    $notify = new \core\output\notification(get_string('messagingdatahasnotbeenmigrated', 'message'),
-        \core\output\notification::NOTIFY_WARNING);
+    $notify = new \core\output\notification(
+        get_string('messagingdatahasnotbeenmigrated', 'message'),
+        \core\output\notification::NOTIFY_WARNING
+    );
     echo $OUTPUT->render($notify);
 }
 echo \core_message\helper::render_messaging_widget(false, $userid, $conversationid, $view);

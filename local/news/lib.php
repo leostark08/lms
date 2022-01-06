@@ -12,6 +12,9 @@
 /**
  * Get icon mapping for font-awesome.
  */
+
+
+
 function local_news_get_fontawesome_icon_map()
 {
     return [
@@ -22,7 +25,22 @@ function local_news_get_fontawesome_icon_map()
     ];
 }
 
-function nicetime($date)
+function local_news_get_all_news()
+{
+
+    global $DB;
+    $newsdata = $DB->get_records('news');
+
+    foreach ($newsdata as $e) {
+        $author = $DB->get_record('user', ['id' => $e->author]);
+        $e->author = $author;
+        $e->timecreated = local_news_nice_time(date('Y/m/d H:i:s', $e->timecreated));
+    }
+
+    return $newsdata;
+}
+
+function local_news_nice_time($date)
 {
     if (empty($date)) {
         return "No date provided";
@@ -60,6 +78,3 @@ function nicetime($date)
 
     return "$difference $periods[$j] {$tense}";
 }
-
-$date = "2009-03-04 17:45";
-$result = nicetime($date); // 2 days ago

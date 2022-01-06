@@ -61,8 +61,7 @@ $capabilities = array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
     'moodle/site:configview' => array(
         'captype' => 'read',
@@ -944,8 +943,7 @@ $capabilities = array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
 
     'moodle/course:manageactivities' => array(
@@ -1361,32 +1359,31 @@ $capabilities = array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_USER,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
 
     //capabilities designed for the new message system configuration
     'moodle/user:editmessageprofile' => array(
 
-         'riskbitmask' => RISK_SPAM,
+        'riskbitmask' => RISK_SPAM,
 
-         'captype' => 'write',
-         'contextlevel' => CONTEXT_USER,
-         'archetypes' => array(
-             'manager' => CAP_ALLOW
-         )
-     ),
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_USER,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW
+        )
+    ),
 
-     'moodle/user:editownmessageprofile' => array(
+    'moodle/user:editownmessageprofile' => array(
 
-         'captype' => 'write',
-         'contextlevel' => CONTEXT_SYSTEM,
-         'archetypes' => array(
-             'guest' => CAP_PROHIBIT,
-             'user' => CAP_ALLOW,
-             'manager' => CAP_ALLOW
-         )
-     ),
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'guest' => CAP_PROHIBIT,
+            'user' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
 
     'moodle/question:managecategory' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
@@ -1594,8 +1591,7 @@ $capabilities = array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
 
     'moodle/grade:viewall' => array(
@@ -2123,17 +2119,16 @@ $capabilities = array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
-                'manager'        => CAP_ALLOW,
-                'teacher'        => CAP_ALLOW,
-                'editingteacher' => CAP_ALLOW,
+            'manager'        => CAP_ALLOW,
+            'teacher'        => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         )
     ),
 
     'moodle/site:forcelanguage' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
 
     // Perform site-wide search queries through the search API.
@@ -2209,8 +2204,7 @@ $capabilities = array(
     'moodle/competency:evidencedelete' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_USER,
-        'archetypes' => array(
-        ),
+        'archetypes' => array(),
         'clonepermissionsfrom' => 'moodle/site:config'
     ),
     // User plans.
@@ -2231,14 +2225,12 @@ $capabilities = array(
     'moodle/competency:planmanageown' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_USER,
-        'archetypes' => array(
-        ),
+        'archetypes' => array(),
     ),
     'moodle/competency:planmanageowndraft' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_USER,
-        'archetypes' => array(
-        ),
+        'archetypes' => array(),
     ),
     'moodle/competency:planview' => array(
         'captype' => 'read',
@@ -2264,8 +2256,7 @@ $capabilities = array(
     'moodle/competency:planviewowndraft' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_USER,
-        'archetypes' => array(
-        ),
+        'archetypes' => array(),
     ),
     'moodle/competency:planrequestreview' => array(
         'captype' => 'write',
@@ -2405,8 +2396,7 @@ $capabilities = array(
     'moodle/site:maintenanceaccess' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-        )
+        'archetypes' => array()
     ),
     // Allow message any user, regardlesss of the privacy preferences for messaging.
     'moodle/site:messageanyuser' => array(
@@ -2424,8 +2414,7 @@ $capabilities = array(
     'moodle/site:managecontextlocks' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-        ],
+        'archetypes' => [],
     ],
 
     // Manual completion toggling.
