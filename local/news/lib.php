@@ -29,7 +29,7 @@ function local_news_get_all_news()
 {
 
     global $DB;
-    $newsdata = $DB->get_records('news');
+    $newsdata = $DB->get_records('news', [], 'timecreated DESC');
 
     foreach ($newsdata as $e) {
         $author = $DB->get_record('user', ['id' => $e->author]);

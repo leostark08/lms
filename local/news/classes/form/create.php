@@ -13,11 +13,11 @@ class create extends moodleform
 
         $mform->addElement('text', 'title', 'Title'); // Add elements to your form
         $mform->setType('title', PARAM_NOTAGS); //Set type of element
-        $mform->setDefault('title', 'Please enter title of news'); //Default value
+        $mform->setDefault('title', ''); //Default value
 
         $mform->addElement('editor', 'content', 'Content');
-        $mform->setType('content', PARAM_NOTAGS); //Set type of element
-        $mform->setDefault('content', 'Please enter content of news'); //Default value
+        $mform->setType('content', PARAM_CLEANHTML); //Set type of element
+        $mform->setDefault('content', ''); //Default value
 
         $mform->addElement('checkbox', 'status', 'Status');
 
